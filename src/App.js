@@ -6,20 +6,25 @@ function App() {
 
   return (
     <div className="App">
+      <CreateTodo />
       <header className="App-header">
         <p>
           React To-do List
         </p>
       </header>
-      <CreateTask />
     </div>
   );
 }
 
-function CreateTask() {
+function CreateTodo({createTodo}) {
+  const [todo, setTodo] = useState("");
   return (
-    <h1>Create Task:</h1>
-
+    <div> 
+      <h2>Create To-do: </h2>
+      <form>
+        <input onChange={ e => setTodo(e.target.value) } />
+      </form>
+    </div>
   );
 }
 
