@@ -8,11 +8,12 @@ const Todo = ({ todo }) => (
   </div>
 )
 
-const CreateTodo = ({ todo, setTodo, createTodo }) => (
+const CreateTodo = ({ setTodo, submitTodo }) => (
   <div> 
     <h2>Create To-do: </h2>
-    <form onSubmit={ () => createTodo(todo) }> 
+    <form onSubmit={ submitTodo }> 
       <input onChange={ e => setTodo(e.target.value) } />
+      <input type='submit' value='create' />
     </form>
   </div>
 )
@@ -24,7 +25,12 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
     setTodoList(newList)
   }
 
-  return <CreateTodo todo={ todo } setTodo={ setTodo } createTodo={ createTodo } />
+  const submitTodo = (e) => {
+    e.preventDefault() // prevent reverting to default
+    createTodo(todo)
+  }
+
+  return <CreateTodo setTodo={ setTodo } submitTodo={ submitTodo } />
 }
    
 const App = ({ todoList, setTodoList }) => (
@@ -36,9 +42,7 @@ const App = ({ todoList, setTodoList }) => (
       </p>
     </header>
     <div>
-      {
-        todoList.map(todo => <Todo todo={ todo } />)
-      }
+      { todoList.map(todo => <Todo todo={ todo } />) }
     </div>
   </div>
 )
