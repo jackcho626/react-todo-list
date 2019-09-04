@@ -8,11 +8,12 @@ const Todo = ({ todo }) => (
   </div>
 )
 
-const CreateTodo = ({ todo, setTodo, createTodo }) => (
+const CreateTodo = ({ todo, setTodo, submitTodo }) => (
   <div> 
     <h2>Create To-do: </h2>
-    <form onSubmit={ () => createTodo(todo) }> 
+    <form onSubmit={ submitTodo }> 
       <input onChange={ e => setTodo(e.target.value) } />
+      <input type='submit' value='add' />
     </form>
   </div>
 )
@@ -24,16 +25,19 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
     setTodoList(newList)
   }
 
-  return <CreateTodo todo={ todo } setTodo={ setTodo } createTodo={ createTodo } />
+  const submitTodo = e => {
+    e.preventDefault() // persistence
+    createTodo(todo)
+  }
+
+  return <CreateTodo todo={ todo } setTodo={ setTodo } submitTodo={ submitTodo } />
 }
    
 const App = ({ todoList, setTodoList }) => (
   <div className='App'>
     <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } />
     <header className='App-header'>
-      <p>
         React To-do List
-      </p>
     </header>
     <div>
       {
