@@ -1,11 +1,20 @@
 import React, { useState } from 'react'
 import './App.css'
-import { create } from 'domain';
+import { create } from 'domain'
+import * as R from 'ramda'
+import { Alert, Row, Col } from 'react-bootstrap'
 
-const Todo = ({ todo }) => (
-  <div>
-    { todo.task }
-  </div>
+const toggleDone = (done) => {
+  done = R.not(done)
+}
+
+const Todo = ({ todo, done }) => (
+    <Row className='justify-content-md-center'>
+      <Alert variant="info">
+          <input type='checkbox' onClick={ done => toggleDone(done) }></input>
+          <div style={{display: 'inline', textDecoration: done? 'line-through': ''}}>{ todo.task }</div>
+      </Alert>
+    </Row>
 )
 
 const CreateTodo = ({ setTodo, submitTodo }) => (
@@ -21,7 +30,8 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
   const [todo, setTodo] = useState('')
 
   const createTodo = task => {
-    const newList = [ ...todoList, { task } ]
+    // const newList = [ ...todoList, { task } ]
+    const newList = R.append({task}, todoList)
     setTodoList(newList)
   }
 
@@ -42,7 +52,7 @@ const App = ({ todoList, setTodoList }) => (
       </p>
     </header>
     <div>
-      { todoList.map(todo => <Todo todo={ todo } />) }
+      { todoList.map(todo => <Todo todo={ todo } done={ false } />) }
     </div>
   </div>
 )
