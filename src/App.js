@@ -5,7 +5,7 @@ import * as R from 'ramda'
 import { Alert, Row } from 'react-bootstrap'
 
 
-const Todo = ({ todo, idx, toggleDone }) => (
+const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
     <Row className='justify-content-md-center'>
       <Alert variant='info'>
         {/* <InputGroup.Prepend>
@@ -20,7 +20,7 @@ const Todo = ({ todo, idx, toggleDone }) => (
         <input type='checkbox' onClick={ () => toggleDone(idx) }></input>
         <p style={{display: 'inline', margin: '0 1.5vw', color: todo.done? 'grey':'black', textDecoration: todo.done? 'line-through': ''}}>
           { todo.task }</p>
-        <input type='button' value='x'></input>
+        <input type='button' value='x' onClick={ () => removeTodo(idx) }></input>
       </Alert>
     </Row>
 )
@@ -51,7 +51,7 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
   return <CreateTodo setTodo={ setTodo } submitTodo={ submitTodo } />
 }
    
-const App = ({ todoList, setTodoList, toggleDone }) => (
+const App = ({ todoList, setTodoList, toggleDone, removeTodo }) => (
   <div className='App'>
     <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } />
     <header className='App-header'>
@@ -60,7 +60,7 @@ const App = ({ todoList, setTodoList, toggleDone }) => (
       </p>
     </header>
     <div>
-      { todoList.map((todo, idx) => <Todo todo={ todo } idx={ idx } toggleDone={ toggleDone } />) }
+      { todoList.map((todo, idx) => <Todo todo={ todo } idx={ idx } toggleDone={ toggleDone } removeTodo={ removeTodo } />) }
     </div>
   </div>
 )
@@ -73,7 +73,15 @@ const AppContainer = () => {
     setTodoList(newList)
   }
 
-  return <App todoList={ todoList } setTodoList={ setTodoList } toggleDone={ toggleDone } />
+  const removeTodo = (idx) => {
+    const newList = R.without([R.nth(idx, todoList)], todoList)
+    // const nthSingleton = (idx, list) => [R.nth(idx, list)] // creates list only containing nth elem
+    // const removeNth = R.compose(R.without, nthSingleton)
+    // const newList = removeNth(idx, todoList)
+    setTodoList(newList)
+  }
+
+  return <App todoList={ todoList } setTodoList={ setTodoList } toggleDone={ toggleDone } removeTodo={ removeTodo } />
 }
 
 export default AppContainer
