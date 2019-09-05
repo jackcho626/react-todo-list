@@ -4,11 +4,8 @@ import { create } from 'domain'
 import * as R from 'ramda'
 import { Alert, Row } from 'react-bootstrap'
 
-const toggleDone = (done) => {
-  done = R.not(done)
-}
 
-const Todo = ({ todo, done }) => (
+const Todo = ({ todo, idx, toggleDone }) => (
     <Row className='justify-content-md-center'>
       <Alert variant='info'>
         {/* <InputGroup.Prepend>
@@ -20,8 +17,9 @@ const Todo = ({ todo, done }) => (
         <InputGroup.Append>
           <InputGroup.Text>x</InputGroup.Text>
         </InputGroup.Append> */}
-        <input type='checkbox' onClick={ done => toggleDone(done) }></input>
-        <div style={{display: 'inline', margin: '0 1.5vw', textDecoration: done? 'line-through': ''}}>{ todo.task }</div>
+        <input type='checkbox' onClick={ () => toggleDone(idx) }></input>
+        <p style={{display: 'inline', margin: '0 1.5vw', color: todo.done? 'grey':'black', textDecoration: todo.done? 'line-through': ''}}>
+          { todo.task }</p>
         <input type='button' value='x'></input>
       </Alert>
     </Row>
@@ -41,7 +39,7 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
 
   const createTodo = task => {
     // const newList = [ ...todoList, { task } ]
-    const newList = R.append({task}, todoList)
+    const newList = R.append({ task, done: false }, todoList)
     setTodoList(newList)
   }
 
@@ -53,7 +51,7 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
   return <CreateTodo setTodo={ setTodo } submitTodo={ submitTodo } />
 }
    
-const App = ({ todoList, setTodoList }) => (
+const App = ({ todoList, setTodoList, toggleDone }) => (
   <div className='App'>
     <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } />
     <header className='App-header'>
@@ -62,14 +60,20 @@ const App = ({ todoList, setTodoList }) => (
       </p>
     </header>
     <div>
-      { todoList.map(todo => <Todo todo={ todo } done={ false } />) }
+      { todoList.map((todo, idx) => <Todo todo={ todo } idx={ idx } toggleDone={ toggleDone } />) }
     </div>
   </div>
 )
 const AppContainer = () => {
-  const [todoList, setTodoList] = useState([{ task: 'Do laundry'}, { task: 'Take out trash'}])
+  const [todoList, setTodoList] = useState([{ task: 'Do laundry', done: false }, { task: 'Take out trash', done: false }])
 
-  return <App todoList={ todoList } setTodoList={ setTodoList } />
+  const toggleDone = (idx) => {
+    const newList = [ ...todoList ]
+    newList[idx].done = R.not(newList[idx].done)
+    setTodoList(newList)
+  }
+
+  return <App todoList={ todoList } setTodoList={ setTodoList } toggleDone={ toggleDone } />
 }
 
 export default AppContainer
