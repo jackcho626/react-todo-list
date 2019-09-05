@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './App.css'
 import { create } from 'domain'
 import * as R from 'ramda'
-import { Alert, Row, Col } from 'react-bootstrap'
+import { Alert, Row } from 'react-bootstrap'
 
 const toggleDone = (done) => {
   done = R.not(done)
@@ -10,9 +10,19 @@ const toggleDone = (done) => {
 
 const Todo = ({ todo, done }) => (
     <Row className='justify-content-md-center'>
-      <Alert variant="info">
-          <input type='checkbox' onClick={ done => toggleDone(done) }></input>
-          <div style={{display: 'inline', textDecoration: done? 'line-through': ''}}>{ todo.task }</div>
+      <Alert variant='info'>
+        {/* <InputGroup.Prepend>
+          <InputGroup.Checkbox />
+        </InputGroup.Prepend>
+        <FormControl>
+          
+        </FormControl>
+        <InputGroup.Append>
+          <InputGroup.Text>x</InputGroup.Text>
+        </InputGroup.Append> */}
+        <input type='checkbox' onClick={ done => toggleDone(done) }></input>
+        <div style={{display: 'inline', margin: '0 1.5vw', textDecoration: done? 'line-through': ''}}>{ todo.task }</div>
+        <input type='button' value='x'></input>
       </Alert>
     </Row>
 )
