@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import './App.css'
 import { create } from 'domain'
 import * as R from 'ramda'
-import { Alert, Row } from 'react-bootstrap'
+import { Alert, Row, Form, FormControl, Nav, Navbar, Button } from 'react-bootstrap'
 
+const doneLens = R.lensProp('done')
 
 const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
     <Row className='justify-content-md-center'>
@@ -26,10 +27,9 @@ const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
 )
 
 const CreateTodo = ({ setTodo, submitTodo }) => (
-  <div> 
-    <h2>Create To-do: </h2>
-    <form onSubmit={ submitTodo }> 
-      <input onChange={ e => setTodo(e.target.value) } />
+  <div className='bg-info'> 
+    <form className='p-3' onSubmit={ submitTodo }> 
+      <input placeholder='add a new todo' onChange={ e => setTodo(e.target.value) } />
       <input type='submit' value='create' />
     </form>
   </div>
@@ -51,13 +51,24 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
   return <CreateTodo setTodo={ setTodo } submitTodo={ submitTodo } />
 }
    
-const App = ({ todoList, setTodoList, toggleDone, removeTodo }) => (
-  <div className='App'>
+const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, search }) => (
+  <div className='App mt-0'>
     <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } />
-    <header className='App-header'>
-      <p>
+    <header className='App-header mt-0'>
+      <p className='mt-3'>
         React To-do List
       </p>
+      <Navbar bg='info' expand='lg'>
+        {/* <Navbar.Brand href='#home'>My To-do List</Navbar.Brand> */}
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav.Link className='text-black-50' onClick={ filterDone }>show/hide done todos</Nav.Link>
+          <Form inline onSubmit={ search }>
+            <FormControl type='text' placeholder='Search' className='mr-sm-2' />
+            <Button variant='outline-dark' type='submit'>Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
     </header>
     <div>
       { todoList.map((todo, idx) => <Todo todo={ todo } idx={ idx } toggleDone={ toggleDone } removeTodo={ removeTodo } />) }
@@ -66,22 +77,47 @@ const App = ({ todoList, setTodoList, toggleDone, removeTodo }) => (
 )
 const AppContainer = () => {
   const [todoList, setTodoList] = useState([{ task: 'Do laundry', done: false }, { task: 'Take out trash', done: false }])
+  const [tempList, setTempList] = useState([])
+  const [hide, setHide] = useState(true)
+  const [searching, setSearching] = useState(true)
+  const [searchVal, setSearchVal] = useState('')
 
   const toggleDone = (idx) => {
     const newList = [ ...todoList ]
-    newList[idx].done = R.not(newList[idx].done)
+    // newList[idx].done = R.not(newList[idx].done)
+    newList[idx] = R.over(doneLens, R.not, newList[idx])
     setTodoList(newList)
   }
 
   const removeTodo = (idx) => {
-    const newList = R.without([R.nth(idx, todoList)], todoList)
+    const newList = R.remove(idx, 1, todoList)
+    // const newList = R.without([R.nth(idx, todoList)], todoList)
     // const nthSingleton = (idx, list) => [R.nth(idx, list)] // creates list only containing nth elem
-    // const removeNth = R.compose(R.without, nthSingleton)
+    // const removeNth = R.compose(R.without, nthSingleton) // doesn't take args for some reason?
     // const newList = removeNth(idx, todoList)
     setTodoList(newList)
   }
 
-  return <App todoList={ todoList } setTodoList={ setTodoList } toggleDone={ toggleDone } removeTodo={ removeTodo } />
+  const filterDone = () => {
+    const filteredList = R.reject(R.view(doneLens, R.__), todoList) // reject done todos, show not done
+    // to hide done todos, save todoList as tempList and show filtered list
+    // to show all again, restore tempList as todoList
+    setTempList(todoList)
+    setTodoList(hide? filteredList : tempList)
+    setHide(R.not(hide))
+  }
+
+  const match = (matchStr, str) => (str.includes(matchStr))
+
+  const search = () => {
+    const str = ''
+    const searchResults = R.filter(match(str, R.__), todoList)
+    setTempList(todoList)
+    setTodoList(searching? searchResults : tempList)
+    setSearching(R.not(searching))
+  }
+
+  return <App todoList={ todoList } setTodoList={ setTodoList } toggleDone={ toggleDone } removeTodo={ removeTodo } filterDone={ filterDone } search={ search } />
 }
 
 export default AppContainer
