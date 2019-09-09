@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './App.css'
 import { create } from 'domain'
 import * as R from 'ramda'
-import { Alert, Row, Form, FormControl, Nav, Navbar, Button } from 'react-bootstrap'
+import { Alert, Row, Form, FormControl, Nav, Navbar } from 'react-bootstrap'
 
 const doneLens = R.lensProp('done')
 
@@ -51,7 +51,7 @@ const CreateTodoContainer = ({ todoList, setTodoList }) => {
   return <CreateTodo setTodo={ setTodo } submitTodo={ submitTodo } />
 }
    
-const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, search, setSearchStr }) => (
+const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, setSearchStr }) => (
   <div className='App mt-0'>
     <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } />
     <header className='App-header mt-0'>
@@ -63,9 +63,9 @@ const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, search
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav.Link className='text-black-50' onClick={ filterDone }>show/hide done todos</Nav.Link>
-          <Form inline onSubmit={ search }>
+          <Form inline>
             <FormControl id='searchForm' type='text' placeholder='Search' className='mr-sm-2' onChange={ e => setSearchStr(e.target.value) } />
-            <Button variant='outline-dark' type='submit'>Search</Button>
+            {/* <Button variant='outline-dark' type='submit'>Search</Button> */}
           </Form>
         </Navbar.Collapse>
       </Navbar>
@@ -77,8 +77,7 @@ const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, search
 )
 const AppContainer = () => {
   const [todoList, setTodoList] = useState([{ task: 'Do laundry', done: false }, { task: 'Take out trash', done: false }])
-  const [tempList, setTempList] = useState([])
-  const [hide, setHide] = useState(true)
+  const [hide, setHide] = useState(false)
   const [searchStr, setSearchStr] = useState('')
 
   const toggleDone = (idx) => {
@@ -97,41 +96,48 @@ const AppContainer = () => {
     setTodoList(newList)
   }
 
+  const filteredList = R.pipe(
+    R.reject(hide ? R.view(doneLens, R.__) : todo => false),
+    R.filter(todo => todo.task.toUpperCase().includes(searchStr.toUpperCase()))
+  )(todoList)
+
   const filterDone = () => {
-    const filteredList = R.reject(R.view(doneLens, R.__), todoList) // reject done todos, show not done
-    // to hide done todos, save todoList as tempList and show filtered list
-    // to show all again, restore tempList as todoList
-    setTempList(todoList)
-    setTodoList(hide? filteredList : tempList)
+    // const filteredList = R.reject(R.view(doneLens, R.__), todoList) // reject done todos, show not done
+    // // to hide done todos, save todoList as tempList and show filtered list
+    // // to show all again, restore tempList as todoList
+    // setTempList(todoList)
+    // setTodoList(hide? filteredList : tempList)
     setHide(R.not(hide))
   }
 
-  const isSubstr = (searchStr, todo) => {
-    // this todo arg receives undefined props
-    // alert(todo.done)
-    alert(todo.task)
-    return todo.task.toUpperCase.includes(searchStr.toUpperCase)
-    // const upperTask = R.toUpper(todo.task)
-    // return R.includes(R.toUpper(matchStr), upperTask)
-  }
+  // const isSubstr = (searchStr, todo) => {
+  //   // this todo arg receives undefined props
+  //   // alert(todo.done)
+  //   alert(todo.task)
+  //   return todo.task.toUpperCase.includes(searchStr.toUpperCase)
+  //   // const upperTask = R.toUpper(todo.task)
+  //   // return R.includes(R.toUpper(matchStr), upperTask)
+  // }
 
-  const search = () => {
-    // react-bootstrap elem's value field not recognized by VS Code but is correct
-    // Never use this in React
-    // const matchStr = document.getElementById('searchForm').value
-    // gets right search val & type but gets stuck here
+  // const search = () => {
+  //   // react-bootstrap elem's value field not recognized by VS Code but is correct
+  //   // Never use this in React
+  //   // const matchStr = document.getElementById('searchForm').value
+  //   // gets right search val & type but gets stuck here
 
-    const searchResults = R.filter(isSubstr(searchStr, R.__), todoList)
-    // const searchResults = R.filter(R.includes(, R.__.task), todoList)
+  //   const searchResults = R.filter(isSubstr(searchStr, R.__), todoList)
+  //   // const searchResults = R.filter(R.includes(, R.__.task), todoList)
 
-    // alert(searchResults)
-    setTempList(todoList)
-    // alert(todoList)
-    setTodoList(searchResults)
-  }
+  //   // alert(searchResults)
+  //   setTempList(todoList)
+  //   // alert(todoList)
+  //   setTodoList(searchResults)
+  // }
 
-  return <App todoList={ todoList } setTodoList={ setTodoList } toggleDone={ toggleDone } removeTodo={ removeTodo } 
-    filterDone={ filterDone } search={ search } setSearchStr={ setSearchStr } />
+
+
+  return <App todoList={ filteredList } setTodoList={ setTodoList } toggleDone={ toggleDone } removeTodo={ removeTodo } 
+    filterDone={ filterDone } setSearchStr={ setSearchStr } />
 }
 
 export default AppContainer
