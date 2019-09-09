@@ -64,7 +64,7 @@ const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, search
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav.Link className='text-black-50' onClick={ filterDone }>show/hide done todos</Nav.Link>
           <Form inline onSubmit={ search }>
-            <FormControl type='text' placeholder='Search' className='mr-sm-2' />
+            <FormControl id='searchForm' type='text' placeholder='Search' className='mr-sm-2' />
             <Button variant='outline-dark' type='submit'>Search</Button>
           </Form>
         </Navbar.Collapse>
@@ -80,7 +80,6 @@ const AppContainer = () => {
   const [tempList, setTempList] = useState([])
   const [hide, setHide] = useState(true)
   const [searching, setSearching] = useState(true)
-  const [searchVal, setSearchVal] = useState('')
 
   const toggleDone = (idx) => {
     const newList = [ ...todoList ]
@@ -107,12 +106,21 @@ const AppContainer = () => {
     setHide(R.not(hide))
   }
 
-  const match = (matchStr, str) => (str.includes(matchStr))
+  const strMatch = (todo, matchStr) => {
+    // this todo arg receives undefined props
+    // alert(todo.done)
+    // alert(todo.task)
+    return todo.task.toUpperCase.includes(matchStr.toUpperCase)
+  }
 
   const search = () => {
-    const str = ''
-    const searchResults = R.filter(match(str, R.__), todoList)
+    // react-bootstrap elem's value field not recognized by VS Code but is correct
+    const matchStr = document.getElementById('searchForm').value
+    // gets right search val but gets stuck here
+    const searchResults = R.filter(strMatch(R.__, matchStr), todoList)
+    // alert(searchResults)
     setTempList(todoList)
+    // alert(todoList)
     setTodoList(searching? searchResults : tempList)
     setSearching(R.not(searching))
   }
