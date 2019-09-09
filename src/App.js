@@ -19,7 +19,7 @@ const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
         <InputGroup.Append>
           <InputGroup.Text>x</InputGroup.Text>
         </InputGroup.Append> */}
-        <input type='checkbox' onClick={ () => toggleDone(idx) }></input>
+        <input type='checkbox' checked={ todo.done } onChange={ () => toggleDone(idx) }></input>
         <p style={{display: 'inline', margin: '0 1.5vw', color: todo.done? 'grey':'black', textDecoration: todo.done? 'line-through': ''}}>
           { todo.task }</p>
         <input type='button' value='x' onClick={ () => removeTodo(idx) }></input>
@@ -72,7 +72,7 @@ const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, setSea
       </Navbar>
     </header>
     <div>
-      { todoList.map((todo, idx) => <Todo todo={ todo } idx={ idx } toggleDone={ toggleDone } removeTodo={ removeTodo } />) }
+      { todoList.map((todo, idx) => <Todo todo={ todo } idx={ todo.idx } toggleDone={ toggleDone } removeTodo={ removeTodo } key={ `todo-${idx}` } />) }
     </div>
   </div>
 )
