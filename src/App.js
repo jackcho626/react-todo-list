@@ -5,6 +5,7 @@ import * as R from 'ramda'
 import { Alert, Row, Form, FormControl, Nav, Navbar } from 'react-bootstrap'
 
 const doneLens = R.lensProp('done')
+const taskLens = R.lensProp('task')
 
 const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
     <Row className='justify-content-md-center'>
@@ -97,8 +98,9 @@ const AppContainer = () => {
   }
 
   const filteredList = R.pipe(
-    R.reject(hide ? R.view(doneLens, R.__) : todo => false),
-    R.filter(todo => todo.task.toUpperCase().includes(searchStr.toUpperCase()))
+    todos => todos.map((todo, idx) => R.assoc('idx', idx, todo)),
+    R.reject(hide ? R.view(doneLens, R.__) : R.F),
+    R.filter(todo => R.view(taskLens, todo).toUpperCase().includes(searchStr.toUpperCase()))
   )(todoList)
 
   const filterDone = () => {
@@ -133,8 +135,6 @@ const AppContainer = () => {
   //   // alert(todoList)
   //   setTodoList(searchResults)
   // }
-
-
 
   return <App todoList={ filteredList } setTodoList={ setTodoList } toggleDone={ toggleDone } removeTodo={ removeTodo } 
     filterDone={ filterDone } setSearchStr={ setSearchStr } />
