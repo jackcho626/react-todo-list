@@ -8,6 +8,7 @@ export const reducer = (state = initState, action) => {
             return action.payload
         case CREATE_SUBMITTED:
             state = initState
+            break
         default: return state
     }
 }
