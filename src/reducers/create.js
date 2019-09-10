@@ -7,8 +7,7 @@ export const reducer = (state = initState, action) => {
         case CREATE_CHANGED:
             return action.payload
         case CREATE_SUBMITTED:
-            state = initState
-            break
+            return initState
         default: return state
     }
 }
