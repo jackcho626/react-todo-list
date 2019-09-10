@@ -8,9 +8,9 @@ export const initState = {
   export const reducer = (state = initState, action) => {
     switch(action.type) {
         case SEARCH_CHANGED:
-          return { hide: state.hide, search: action.payload }
+          return { ...state, search: action.payload }
         case SHOW_DONE:
-          return { hide: action.payload, search: state.search }
+          return { hide: action.payload, ...state }
         default: 
           return state
     }
