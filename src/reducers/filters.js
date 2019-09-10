@@ -10,7 +10,7 @@ export const initState = {
         case SEARCH_CHANGED:
           return { ...state, search: action.payload }
         case SHOW_DONE:
-          return { hide: action.payload, ...state }
+          return { ...state, hide: action.payload  }
         default: 
           return state
     }

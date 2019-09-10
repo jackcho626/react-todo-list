@@ -1,7 +1,5 @@
 import { DELETE_TODO, DONE_TOGGLED, CREATE_SUBMITTED } from '../consts'
-import R from 'ramda'
-
-const doneLens = R.lensProp('done')
+import * as R from 'ramda'
 
 export const initState = [{ task: 'Do laundry', done: false}, 
     { task: 'Take out trash', done: false}]
