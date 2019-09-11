@@ -56,7 +56,8 @@ const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
    
 const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, setSearchStr }) => (
   <div className='App mt-0'>
-    <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } />
+    {/* <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } /> */}
+    <CreateTodoContainer setTodoList={ setTodoList } />
     <header className='App-header mt-0'>
       <p className='mt-3'>
         React To-do List

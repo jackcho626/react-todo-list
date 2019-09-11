@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 
 const mapStateToProps = state  => ({
-  value: state.value
+  value: state.create
 })
 
 const mapDispatchToProps = dispatch => ({
