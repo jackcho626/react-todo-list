@@ -1,13 +1,15 @@
 import { connect } from 'react-redux'
 import { CreateTodo } from '../components/create'
+import { bindActionCreators } from 'redux'
+import * as actions from '../actions'
 
 const mapStateToProps = state  => ({
-  value: 'hello world'
+  value: state.value
 })
 
 const mapDispatchToProps = dispatch => ({
-  setTodo: console.log,
-  submitTodo: console.log
+  setTodo: bindActionCreators(actions.createChanged, dispatch),
+  submitTodo: bindActionCreators(actions.createSubmited, dispatch)
 })
 
 export const CreateTodoContainer = connect(mapStateToProps, mapDispatchToProps)(CreateTodo)
