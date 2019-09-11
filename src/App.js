@@ -3,6 +3,7 @@ import './App.css'
 import { create } from 'domain'
 import * as R from 'ramda'
 import { Alert, Row, Form, FormControl, Nav, Navbar } from 'react-bootstrap'
+import { CreateTodoContainer } from './containers/create'
 
 const doneLens = R.lensProp('done')
 const taskLens = R.lensProp('task')
@@ -27,30 +28,31 @@ const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
     </Row>
 )
 
-const CreateTodo = ({ setTodo, submitTodo }) => (
-  <div className='bg-info'> 
-    <form className='p-3' onSubmit={ submitTodo }> 
-      <input placeholder='add a new todo' onChange={ e => setTodo(e.target.value) } />
-      <input type='submit' value='create' />
-    </form>
-  </div>
-)
-const CreateTodoContainer = ({ todoList, setTodoList }) => {
-  const [todo, setTodo] = useState('')
+// export const CreateTodo = ({ setTodo, submitTodo }) => (
+//   <div className='bg-info'> 
+//     <form className='p-3' onSubmit={ submitTodo }> 
+//       <input placeholder='add a new todo' onChange={ e => setTodo(e.target.value) } />
+//       <input type='submit' value='create' />
+//     </form>
+//   </div>
+// )
+// const CreateTodoContainer = ({ todoList, setTodoList }) => {
+//   const [todo, setTodo] = useState('')
 
-  const createTodo = task => {
-    // const newList = [ ...todoList, { task } ]
-    const newList = R.append({ task, done: false }, todoList)
-    setTodoList(newList)
-  }
+//   const createTodo = task => {
+//     // const newList = [ ...todoList, { task } ]
+//     const newList = R.append({ task, done: false }, todoList)
+//     setTodoList(newList)
+//   }
 
-  const submitTodo = (e) => {
-    e.preventDefault() // prevent reverting to default
-    createTodo(todo)
-  }
+//   const submitTodo = (e) => {
+//     e.preventDefault() // prevent reverting to default
+//     createTodo(todo)
+//   }
 
-  return <CreateTodo setTodo={ setTodo } submitTodo={ submitTodo } />
-}
+//   return <CreateTodo setTodo={ setTodo } submitTodo={ submitTodo } />
+// }
+
    
 const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, setSearchStr }) => (
   <div className='App mt-0'>
