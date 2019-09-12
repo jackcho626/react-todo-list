@@ -21,7 +21,8 @@ const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
     </Row>
 )
 
-export const TodoList = ({ todo, toggleDone, removeTodo, idx }) => (
-<div>
-    todoList.map((todo, idx) => <Todo todo={ todo } idx={ todo.idx } toggleDone={ toggleDone } removeTodo={ removeTodo } key={ `todo-${idx}` } />) }
-</div>)
+export const TodoList = ({ todos, toggleDone, removeTodo }) => (
+    <div>
+        { todos.map((todo, idx) => <Todo todo={ todo } idx={ todo.idx } toggleDone={ toggleDone } removeTodo={ removeTodo } key={ `todo-${idx}` } />) }
+    </div>
+)

@@ -4,11 +4,11 @@ import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 
 const mapStateToProps = state  => ({
-  value: state.filters
+  hide: state.hide
 })
 
 const mapDispatchToProps = dispatch => ({
-  filterDone: bindActionCreators(actions.showDone, dispatch),
+  filterDone: bindActionCreators(actions.hideDone, dispatch),
   setSearchStr: bindActionCreators(actions.searchChanged, dispatch)
 })
 
