@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux'
 import * as actions from '../actions'
 
 const mapStateToProps = state  => ({
-  hide: state.hide
+  hide: state.filters.hide
 })
 
 const mapDispatchToProps = dispatch => ({
