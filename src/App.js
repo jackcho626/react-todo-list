@@ -1,17 +1,21 @@
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
+import React from 'react'
 import './App.css'
-import { create } from 'domain'
-import * as R from 'ramda'
-import { Alert, Row, Form, FormControl, Nav, Navbar } from 'react-bootstrap'
+// import { create } from 'domain'
+// import * as R from 'ramda'
+// import { Alert, Row, Form, FormControl, Nav, Navbar } from 'react-bootstrap'
 import { CreateTodoContainer } from './containers/create'
+import { TodosContainer } from './containers/todos'
+import { FiltersContainer } from './containers/filters'
 
+/*
 const doneLens = R.lensProp('done')
 const taskLens = R.lensProp('task')
 
 const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
     <Row className='justify-content-md-center'>
       <Alert variant='info'>
-        {/* <InputGroup.Prepend>
+        { <InputGroup.Prepend>
           <InputGroup.Checkbox />
         </InputGroup.Prepend>
         <FormControl>
@@ -19,7 +23,7 @@ const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
         </FormControl>
         <InputGroup.Append>
           <InputGroup.Text>x</InputGroup.Text>
-        </InputGroup.Append> */}
+        </InputGroup.Append> }
         <input type='checkbox' checked={ todo.done } onChange={ () => toggleDone(idx) }></input>
         <p style={{display: 'inline', margin: '0 1.5vw', color: todo.done? 'grey':'black', textDecoration: todo.done? 'line-through': ''}}>
           { todo.task }</p>
@@ -56,20 +60,20 @@ const Todo = ({ todo, idx, toggleDone, removeTodo }) => (
    
 const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, setSearchStr }) => (
   <div className='App mt-0'>
-    {/* <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } /> */}
+    {// <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } /> }
     <CreateTodoContainer />
     <header className='App-header mt-0'>
       <p className='mt-3'>
         React To-do List
       </p>
       <Navbar bg='info' expand='lg'>
-        {/* <Navbar.Brand href='#home'>My To-do List</Navbar.Brand> */}
+        // { <Navbar.Brand href='#home'>My To-do List</Navbar.Brand> }
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav.Link className='text-black-50' onClick={ filterDone }>show/hide done todos</Nav.Link>
           <Form inline>
             <FormControl id='searchForm' type='text' placeholder='Search' className='mr-sm-2' onChange={ e => setSearchStr(e.target.value) } />
-            {/* <Button variant='outline-dark' type='submit'>Search</Button> */}
+            { <Button variant='outline-dark' type='submit'>Search</Button> }
           </Form>
         </Navbar.Collapse>
       </Navbar>
@@ -142,5 +146,35 @@ const AppContainer = () => {
   return <App todoList={ filteredList } setTodoList={ setTodoList } toggleDone={ toggleDone } removeTodo={ removeTodo } 
     filterDone={ filterDone } setSearchStr={ setSearchStr } />
 }
+*/
 
-export default AppContainer
+// const App = ({ todoList, setTodoList, toggleDone, removeTodo, filterDone, setSearchStr }) => (
+const App = () => (
+  <div className='App mt-0'>
+    {/* { <CreateTodoContainer todoList={ todoList } setTodoList={ setTodoList } /> } */}
+    <CreateTodoContainer />
+    <FiltersContainer />
+    {/* <header className='App-header mt-0'>
+      <p className='mt-3'>
+        React To-do List
+      </p>
+      <Navbar bg='info' expand='lg'>
+        { <Navbar.Brand href='#TAKEOUT'>My To-do List</Navbar.Brand> }
+        <Navbar.Toggle aria-controls='basic-navbar-nav' />
+        <Navbar.Collapse id='basic-navbar-nav'>
+          <Nav.Link className='text-black-50' onClick={ filterDone }>show/hide done todos</Nav.Link>
+          <Form inline>
+            <FormControl id='searchForm' type='text' placeholder='Search' className='mr-sm-2' onChange={ e => setSearchStr(e.target.value) } />
+            <Button href='TAKEOUT!' variant='outline-dark' type='submit'>Search</Button>
+          </Form>
+        </Navbar.Collapse>
+      </Navbar>
+    </header> */}
+    <TodosContainer />
+    {/* <div>
+      { todoList.map((todo, idx) => <Todo todo={ todo } idx={ todo.idx } toggleDone={ toggleDone } removeTodo={ removeTodo } key={ `todo-${idx}` } />) }
+    </div> */}
+  </div>
+)
+
+export default App
