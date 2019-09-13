@@ -3,6 +3,7 @@ import * as R from 'ramda'
 
 export const selectFilters = R.prop('filters')
 export const selectHide = R.pipe(selectFilters, R.prop('hide'))
+export const selectSearch = R.pipe(selectFilters, R.prop('search'))
 
 export const initState = {
     hide: false,
