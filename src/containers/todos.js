@@ -8,7 +8,9 @@ import { filteredList } from '../selectors/filterList'
 // const doneLens = R.lensProp('done')
 // const taskLens = R.lensProp('task')
 
-const mapStateToProps = state  => filteredList(state)
+const mapStateToProps = state  => ({
+  todos: filteredList(state)
+})
     // todos: R.pipe(
     //     todos => todos.map((todo, idx) => R.assoc('idx', idx, todo)),
     //     R.reject(state.filters.hide ? R.view(doneLens, R.__) : R.F),
