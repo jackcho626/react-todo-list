@@ -1,4 +1,8 @@
 import { SEARCH_CHANGED, HIDE_DONE } from '../consts'
+import * as R from 'ramda'
+
+export const selectFilters = R.prop('filters')
+export const selectHide = R.pipe(selectFilters, R.prop('hide'))
 
 export const initState = {
     hide: false,

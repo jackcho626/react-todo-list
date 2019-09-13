@@ -1,6 +1,8 @@
 import { DELETE_TODO, DONE_TOGGLED, CREATE_SUBMITTED } from '../consts'
 import * as R from 'ramda'
 
+export const selectTodos = R.prop('todos')
+
 export const initState = [{ task: 'Do laundry', done: false}, 
     { task: 'Take out trash', done: false}]
 
