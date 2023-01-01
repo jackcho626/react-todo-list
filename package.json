@@ -6,7 +6,7 @@
     "babel-eslint": "^10.0.2",
     "core-js": "^3.2.1",
     "eslint": "^6.3.0",
-    "eslint-loader": "^3.0.0",
+    "eslint-loader": "^4.0.2",
     "eslint-plugin-jest": "^22.16.0",
     "eslint-plugin-react": "^7.14.3",
     "ramda": "^0.26.1",
@@ -14,7 +14,7 @@
     "react-bootstrap": "^1.0.0-beta.12",
     "react-dom": "^16.9.0",
     "react-redux": "^7.1.1",
-    "react-scripts": "3.1.1",
+    "react-scripts": "5.0.1",
     "reactstrap": "^8.0.1",
     "redux": "^4.0.4",
     "reselect": "^4.0.0"
